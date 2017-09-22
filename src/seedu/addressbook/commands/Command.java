@@ -10,6 +10,7 @@ import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
 /**
  * Represents an executable command.
+ * Subclasses are required to implement the isMutating() method
  */
 public abstract class Command {
     protected AddressBook addressBook;
