@@ -95,6 +95,9 @@ public class LogicTest {
             assertEquals(lastShownList, logic.getLastShownList());
             assertEquals(addressBook, saveFile.load());
         }
+        else {
+            assertEquals(addressBook, saveFile.load());
+        }
     }
 
 
