@@ -4,6 +4,7 @@ import seedu.addressbook.common.Printable;
 import seedu.addressbook.data.tag.UniqueTagList;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Represents a Person in the address book.
@@ -89,10 +90,12 @@ public class Person implements ReadOnlyPerson {
      * Returns a concatenated version of the printable strings of each object.
      */
     public String getPrintableString(Printable... printables) {
-        String temp = new String();
+        String temp;
+        StringJoiner personRepresentationFormat = new StringJoiner(",", "[", "]");
         for(Printable printable: printables) {
-            temp += printable.getPrintableString() + " ";
+            personRepresentationFormat.add(printable.getPrintableString());
         }
+        temp = personRepresentationFormat.toString();
         return temp;
     }
 }
