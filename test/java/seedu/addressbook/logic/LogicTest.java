@@ -15,9 +15,11 @@ import seedu.addressbook.data.tag.UniqueTagList;
 import seedu.addressbook.parser.Parser;
 import seedu.addressbook.storage.StorageFile;
 
+import java.io.File;
 import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static seedu.addressbook.common.Messages.*;
 
 
@@ -32,10 +34,12 @@ public class LogicTest {
     private StorageFile saveFile;
     private AddressBook addressBook;
     private Logic logic;
+    private File actualFileRef;
 
     @Before
     public void setup() throws Exception {
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
+        actualFileRef = saveFolder.newFile("testSaveFile.txt");
+        saveFile = new StorageFile(actualFileRef.getPath());
         addressBook = new AddressBook();
         saveFile.save(addressBook);
         logic = new Logic(saveFile, addressBook);
@@ -77,6 +81,8 @@ public class LogicTest {
                                       AddressBook expectedAddressBook,
                                       boolean isRelevantPersonsExpected,
                                       List<? extends ReadOnlyPerson> lastShownList) throws Exception {
+        //Stores lastModified() before command is executed
+        long preCommandLastModified = actualFileRef.lastModified();
 
         //Execute the command
         CommandResult r = logic.execute(inputCommand);
@@ -94,9 +100,11 @@ public class LogicTest {
             assertEquals(expectedAddressBook, addressBook);
             assertEquals(lastShownList, logic.getLastShownList());
             assertEquals(addressBook, saveFile.load());
+            assertNotEquals(preCommandLastModified, actualFileRef.lastModified());
         }
+        //Checks that the actual storage file is not modified, based on lastModified() timestamp
         else {
-            assertEquals(addressBook, saveFile.load());
+            assertEquals(preCommandLastModified, actualFileRef.lastModified());
         }
     }
 
