@@ -100,7 +100,6 @@ public class LogicTest {
             assertEquals(expectedAddressBook, addressBook);
             assertEquals(lastShownList, logic.getLastShownList());
             assertEquals(addressBook, saveFile.load());
-            assertNotEquals(preCommandLastModified, actualFileRef.lastModified());
         }
         //Checks that the actual storage file is not modified, based on lastModified() timestamp
         else {
